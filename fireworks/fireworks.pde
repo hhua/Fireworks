@@ -1,3 +1,8 @@
+import ddf.minim.*;
+Minim minim;
+
+AudioPlayer player;
+
 // Based on Anders Fisher's Fireworks example
 // Spring festival 2013
 // Meng Shi, Hua Han, Ziyun Peng
@@ -6,11 +11,14 @@
 Firework[] fs = new Firework[10];
 boolean once;
 void setup(){
-  size(800,800);
+  size(1280,800);
   smooth();
   for (int i = 0; i < fs.length; i++){
     fs[i] = new Firework();
   }
+  
+  minim = new Minim(this);
+  player = minim.loadFile("fireworks.wav");
 }
 void draw(){
   noStroke();
@@ -93,6 +101,9 @@ class Firework{
     launched = false;
     exploded = true;
     hidden = false;
+    
+    player.play();
+    player.loop();
   }
   void explodeMaths(){
     if(explodeTimer < duration){
