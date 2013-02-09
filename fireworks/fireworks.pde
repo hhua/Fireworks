@@ -1,4 +1,11 @@
+import ddf.minim.spi.*;
+import ddf.minim.signals.*;
 import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.ugens.*;
+import ddf.minim.effects.*;
+
+
 Minim minim;
 
 AudioPlayer player;
@@ -11,7 +18,7 @@ AudioPlayer player;
 Firework[] fs = new Firework[10];
 boolean once;
 void setup(){
-  size(1280,800);
+  size(displayWidth, displayHeight);
   smooth();
   for (int i = 0; i < fs.length; i++){
     fs[i] = new Firework();
@@ -20,15 +27,17 @@ void setup(){
   minim = new Minim(this);
   player = minim.loadFile("fireworks.wav");
 }
+
 void draw(){
   noStroke();
   fill(0);
-  rect(0,0,width,height);
+  rect(0,0,displayWidth,displayHeight);
   for (int i = 0; i < fs.length; i++){
     fs[i].draw();
   }
   startFire();
 }
+
 void startFire(){
   once = false;
   for (int i = 0; i < fs.length; i++){
@@ -37,17 +46,21 @@ void startFire(){
       once = true;
     }
   }
+  
 }
+
 class Firework{
   float x, y, oldX,oldY, ySpeed, targetX, targetY, explodeTimer, flareWeight, flareAngle;
   int flareAmount, duration;
   boolean launched,exploded,hidden;
   color flare;
+  
   Firework(){
     launched = false;
     exploded = false;
     hidden = true;
   }
+  
   void draw(){
     if((launched)&&(!exploded)&&(!hidden)){
       launchMaths();
